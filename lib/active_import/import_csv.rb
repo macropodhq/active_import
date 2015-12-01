@@ -1,11 +1,7 @@
 require 'iconv' unless String.method_defined?(:encode)
 
 module ActiveImport
-  if RUBY_VERSION =~ /^1.9/
-    require 'csv'
-  else
-    require 'fastercsv'
-  end
+  require 'csv'
 
   class ImportCsv
     attr_reader :data_file, :converter, :estimated_rows
@@ -48,14 +44,7 @@ module ActiveImport
       header = true
       data_count = 0
       row_number = 0
-      csv_class = nil
-      if RUBY_VERSION =~ /^1.9/
-        csv_class = CSV
-        puts "Using built in Ruby 1.9 CSV parser".cyan
-      else
-        csv_class = FasterCSV
-        puts "Using FasterCSV parser".cyan
-      end
+      csv_class = CSV
 
       # Get an estimate of the number of rows in the file
       puts @data_file.to_s.yellow
